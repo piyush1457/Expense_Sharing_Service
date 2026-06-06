@@ -248,7 +248,7 @@ All errors follow this structure:
 Stores user information.
 
 | Column | Type | Constraints |
-+|--------|------|-------------|
+|--------|------|-------------|
 | id | Integer | Primary Key |
 | name | String(100) | NOT NULL |
 | email | String(255) | UNIQUE, NOT NULL |
