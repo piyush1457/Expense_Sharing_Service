@@ -318,7 +318,7 @@ Records payments made to settle debts.
 ### Key Design Decisions
 
 1. **`expense_splits` as a dedicated table**  
-   Instead of recalculating splits on every balance request, we store them upfront. This makes balance queries fast and consistent. The payer is intentionally excluded — they don't owe themselves.
+   Instead of recalculating splits on every balance request, we store them upfront. This makes balance queries fast and consistent. The payer is intentionally excluded since they don't owe themselves.
 
 2. **`Numeric(10,2)` for money, not `Float`**  
    Floats have precision errors (e.g., `0.1 + 0.2 = 0.30000000000000004`). For financial data, `Decimal` ensures exact arithmetic.
@@ -403,7 +403,7 @@ Greedy doesn't guarantee the absolute minimum in all cases (the general problem 
 ### 2. Expense Analytics
 
 **Why I built this:**  
-Users want insights — "where did all our money go?" — not just raw expense lists.
+Users want insights: "where did all our money go?" not just raw expense lists.
 
 **How it solves the problem:**  
 Provides aggregated views: category-wise breakdown, per-member contributions, largest expense, and group totals.
@@ -412,13 +412,13 @@ Provides aggregated views: category-wise breakdown, per-member contributions, la
 Added optional `category` field on expenses (Food, Transport, Hotel, etc.) for flexible categorization without ML complexity.
 
 **Tradeoff:**  
-Manual categorization vs. auto-categorization. Chose manual for simplicity; auto-categorization would need NLP on descriptions.
+Manual categorization vs. auto-categorization. Chose manual for simplicity (auto-categorization would need NLP on descriptions).
 
 ---
 
 ## Assumptions Made
 
-1. **Users must be added to a group before expenses can be recorded** — A group needs at least 2 members.
+1. **Users must be added to a group before expenses can be recorded** (a group needs at least 2 members).
 2. **Equal split by default** — If `split_type` is not provided, expense is split equally among all group members.
 3. **Payer doesn't owe themselves** — Excluded from `expense_splits`.
 4. **Email uniqueness** — Each user must have a unique email (basic identity guarantee).
@@ -459,12 +459,12 @@ HTTP Request -> Router -> Service -> Model -> Database
 
 ## What I Would Improve With More Time
 
-- **Authentication & Authorization** — JWT tokens, role-based access
-- **PostgreSQL migration** — For production scalability
-- **Recurring expenses** — Rent, subscriptions split monthly
-- **Multi-currency support** — With live exchange rate API
-- **Email notifications** — When someone adds an expense or requests settlement
-- **Optimal settlement algorithm** — Use Linear Programming (LP) to truly minimize transactions
+- **Authentication & Authorization**: JWT tokens, role-based access
+- **PostgreSQL migration**: For production scalability
+- **Recurring expenses**: Rent, subscriptions split monthly
+- **Multi-currency support**: With live exchange rate API
+- **Email notifications**: When someone adds an expense or requests settlement
+- **Optimal settlement algorithm**: Use Linear Programming (LP) to truly minimize transactions
 - **Expense edit/delete** with audit log
 - **Bulk operations** — Add multiple expenses at once
 - **Frontend dashboard** — React/Next.js client
@@ -498,7 +498,3 @@ pytest -v
 
 ---
 
-## Author
-
-**[Your Name]**  
-Submitted for: Decentro SDE Intern Assignment
