@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/workspace/data
+    environment:
+      - DATABASE_URL=sqlite:////workspace/data/expense_sharing.db
+    restart: always
