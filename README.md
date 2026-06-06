@@ -2,6 +2,8 @@
 
 A backend service for tracking shared expenses among groups of friends like a simplified Splitwise. Built as part of the Decentro SDE Intern assignment.
 
+Demo: **[Watch the Video Demo](https://youtu.be/yiK8TZGvwns)**
+
 ## Features
 
 ### Core Features
