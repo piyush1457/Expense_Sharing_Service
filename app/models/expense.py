@@ -3,12 +3,14 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Numeric, B
 from sqlalchemy.orm import relationship
 from app.database import Base
 
+# Represents an expense transaction. Uses Numeric(10, 2) to store exact monetary amounts.
 class Expense(Base):
     __tablename__ = "expenses"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     group_id = Column(Integer, ForeignKey("groups.id", ondelete="CASCADE"), nullable=False)
     paid_by = Column(Integer, ForeignKey("users.id"), nullable=False)
+    # Numeric(10, 2) maps to Python's Decimal to avoid float representation issues.
     amount = Column(Numeric(10, 2), nullable=False)
     description = Column(String(255), nullable=False)
     split_type = Column(String(20), default="equal", nullable=False)
@@ -21,6 +23,7 @@ class Expense(Base):
     splits = relationship("ExpenseSplit", back_populates="expense", cascade="all, delete-orphan")
 
 
+# Stores who owes what for an expense. The payer is excluded from DB splits.
 class ExpenseSplit(Base):
     __tablename__ = "expense_splits"
 
@@ -28,6 +31,8 @@ class ExpenseSplit(Base):
     expense_id = Column(Integer, ForeignKey("expenses.id", ondelete="CASCADE"), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     amount_owed = Column(Numeric(10, 2), nullable=False)
+    # is_settled is updated to True when a settlement covers this amount.
+    # We never delete settled splits; we update is_settled to preserve payment logs.
     is_settled = Column(Boolean, default=False, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 

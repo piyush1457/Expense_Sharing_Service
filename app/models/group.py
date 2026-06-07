@@ -3,6 +3,7 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, UniqueCons
 from sqlalchemy.orm import relationship
 from app.database import Base
 
+# Represents shared expense groups (e.g. Goa Trip, Roommates)
 class Group(Base):
     __tablename__ = "groups"
 
@@ -18,6 +19,8 @@ class Group(Base):
     settlements = relationship("Settlement", back_populates="group", cascade="all, delete-orphan")
 
 
+# Junction table enabling Many-to-Many relationship between Users and Groups.
+# A user can belong to multiple groups, and a group can contain multiple users.
 class GroupMember(Base):
     __tablename__ = "group_members"
 
@@ -31,5 +34,6 @@ class GroupMember(Base):
     user = relationship("User", back_populates="memberships")
 
     __table_args__ = (
+        # Prevent adding the exact same user multiple times to the same group.
         UniqueConstraint("group_id", "user_id", name="uq_group_user"),
     )

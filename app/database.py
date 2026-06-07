@@ -11,7 +11,9 @@ engine = create_engine(
     connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
 )
 
-# Enforce foreign key constraints in SQLite
+# Enforce foreign key constraints in SQLite. SQLite does not enable foreign key checks 
+# by default. This event listener intercepts every new connection and sets the PRAGMA,
+# which is essential for cascade deletions (like deleting splits when an expense is deleted).
 @event.listens_for(Engine, "connect")
 def set_sqlite_pragma(dbapi_connection, connection_record):
     if DATABASE_URL.startswith("sqlite"):
@@ -19,6 +21,7 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
         cursor.execute("PRAGMA foreign_keys=ON")
         cursor.close()
 
+# SessionLocal is the session factory that generates individual database transactions
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()

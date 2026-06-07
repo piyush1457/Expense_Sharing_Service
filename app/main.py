@@ -29,6 +29,11 @@ def health_check():
     return {"status": "healthy", "service": "expense-sharing-service"}
 
 # --- EXCEPTION HANDLERS ---
+# Handled exceptions in this file:
+# 1. AppException (Custom application-level domain errors)
+# 2. RequestValidationError (Pydantic validation errors)
+# 3. StarletteHTTPException (FastAPI/Starlette default HTTP exceptions)
+# 4. Exception (General generic python exception fallback)
 
 @app.exception_handler(AppException)
 async def app_exception_handler(request: Request, exc: AppException):
