@@ -459,23 +459,6 @@ HTTP Request -> Router -> Service -> Model -> Database
 
 ---
 
-## What I Would Improve With More Time
-
-- **Authentication & Authorization**: JWT tokens, role-based access
-- **PostgreSQL migration**: For production scalability
-- **Recurring expenses**: Rent, subscriptions split monthly
-- **Multi-currency support**: With live exchange rate API
-- **Email notifications**: When someone adds an expense or requests settlement
-- **Optimal settlement algorithm**: Use Linear Programming (LP) to truly minimize transactions
-- **Expense edit/delete** with audit log
-- **Bulk operations** — Add multiple expenses at once
-- **Frontend dashboard** — React/Next.js client
-- **Async DB queries** with SQLAlchemy 2.0 async support
-- **Rate limiting** to prevent abuse
-- **Comprehensive logging** with structured logs (JSON)
-
----
-
 ## Testing
 
 The project includes **22 unit tests** covering:
